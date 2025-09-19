@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DC Weekend Tracker - Divya, Bharat & Richa</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState } = React;
+        const DCWeekendTracker = () => {
+          const [completedItems, setCompletedItems] = useState(new Set());
+          const toggleComplete = (itemId) => {
+            const newCompleted = new Set(completedItems);
+            if (newCompleted.has(itemId)) { newCompleted.delete(itemId); } 
+            else { newCompleted.add(itemId); }
+            setCompletedItems(newCompleted);
+          };
+          const itinerary = [
+            {
+              day: "FRIDAY, OCTOBER 10TH", subtitle: "ARRIVAL & FIRST IMPRESSIONS",
+              items: [
+                { id: "f1", time: "6:30 PM", title: "BWI Landing → Union Station", details: "MARC Penn Line: 7:05 PM departure, $8/person = $24 total", transport: "35 min train ride", location: "BWI Rail Station", cost: "$24" },
+                { id: "f2", time: "8:00 PM", title: "Kellogg Hotel Check-in", details: "800 Florida Ave NE", transport: "12 min Uber OR Red Line Metro", cost: "$10", critical: true },
+                { id: "f3", time: "8:45 PM", title: "Lincoln Memorial Night Visit", details: "Marble temple illuminated, zero crowds", transport: "18 min Uber from hotel", cost: "FREE + $16" },
+                { id: "f4", time: "9:45 PM", title: "Late Dinner", details: "Old Ebbitt Grill OR food trucks", cost: "$30-150" }
+              ]
+            },
+            {
+              day: "SATURDAY, OCTOBER 11TH", subtitle: "DEMOCRACY'S HEART - CROWD-SMART TIMING",
+              items: [
+                { id: "s1", time: "8:30 AM", title: "Capitol Hill Power Walk", details: "U.S. Capitol → Supreme Court", cost: "$3" },
+                { id: "s2", time: "9:45 AM", title: "Library of Congress", details: "Great Hall, Main Reading Room", cost: "FREE" },
+                { id: "s3", time: "10:30 AM", title: "Natural History Museum", details: "Hope Diamond, T-Rex, Butterfly Pavilion", cost: "FREE" },
+                { id: "s4", time: "12:00 PM", title: "Late Lunch Break", details: "Founding Farmers OR Museum cafeteria", cost: "$22-84" },
+                { id: "s5", time: "1:00 PM", title: "National Archives", details: "Declaration, Constitution, Bill of Rights", cost: "FREE", critical: true },
+                { id: "s6", time: "2:15 PM", title: "White House Photos", details: "South Lawn fence, The Ellipse", cost: "FREE" },
+                { id: "s7", time: "2:45 PM", title: "Washington Monument & WWII Memorial", cost: "FREE" },
+                { id: "s8", time: "3:15 PM", title: "Jefferson & MLK Memorials", details: "Golden hour photography", cost: "$10" },
+                { id: "s9", time: "4:30 PM", title: "Georgetown Early Dinner", details: "Il Canale OR Chaia Tacos", cost: "$54-93" },
+                { id: "s10", time: "6:00 PM", title: "Georgetown Waterfront Sunset", cost: "FREE" }
+              ]
+            },
+            {
+              day: "SUNDAY, OCTOBER 12TH", subtitle: "CULTURE & STRATEGIC DEPARTURES",
+              items: [
+                { id: "su1", time: "8:00 AM", title: "Dupont Circle Farmers Market", cost: "$30-45" },
+                { id: "su2", time: "9:30 AM", title: "National Portrait Gallery", cost: "FREE" },
+                { id: "su3", time: "11:00 AM", title: "Lunch Strategy", details: "Zaytinya OR Chinatown", cost: "$60-81" },
+                { id: "su4", time: "12:15 PM", title: "American History Museum", details: "Star-Spangled Banner, Lincoln's hat", cost: "FREE", critical: true },
+                { id: "su5", time: "2:15 PM", title: "Kennedy Center", details: "Rooftop terrace views", cost: "$12" },
+                { id: "su6", time: "2:45 PM", title: "Vietnam Veterans Memorial", cost: "$9" },
+                { id: "su7", time: "3:15 PM", title: "SPLIT DEPARTURE", details: "Divya: Tampa flight | Bharat & Richa: Airbnb", critical: true, split: true }
+              ]
+            },
+            {
+              day: "DEPARTURE LOGISTICS", subtitle: "SPLIT EXECUTION - CRITICAL TIMING",
+              items: [
+                { id: "d1", time: "3:15 PM", title: "Divya: BWI → Tampa Flight", details: "MARC 4:05 PM or 5:05 PM trains", cost: "$30", critical: true, person: "Divya" },
+                { id: "d2", time: "3:15 PM", title: "Bharat & Richa: Airbnb Check-in", details: "4367 Varnum Place NE", cost: "$22", critical: true, person: "B&R" },
+                { id: "d3", time: "5:45 AM", title: "Bharat & Richa: NYC Departure", details: "7:05 AM Amtrak", cost: "$24", critical: true, person: "B&R" }
+              ]
+            },
+            {
+              day: "SUNDAY EVENING OPTIONS", subtitle: "BHARAT & RICHA - POST-SPLIT",
+              items: [
+                { id: "e1", time: "4:00 PM", title: "Capitol Hill Barracks Row (Practical)", details: "Closest to Monday departure", cost: "$35-50", person: "B&R" },
+                { id: "e2", time: "4:00 PM", title: "Dupont Circle (DC Authentic)", details: "Kramerbooks cafe", cost: "$25-35", person: "B&R" },
+                { id: "e3", time: "3:30 PM", title: "Alexandria Old Town (Historic)", details: "Colonial streets, ghost tour", cost: "$30-50", person: "B&R" },
+                { id: "e4", time: "4:30 PM", title: "The Wharf (Modern)", details: "Waterfront dining", cost: "$45-65", person: "B&R" },
+                { id: "e5", time: "5:00 PM", title: "Kennedy Center Performance", details: "Free shows + rooftop bar", cost: "FREE-$75", person: "B&R" }
+              ]
+            }
+          ];
+          const getDayProgress = (dayItems) => Math.round((dayItems.filter(item => completedItems.has(item.id)).length / dayItems.length) * 100);
+          return (
+            <div className="max-w-6xl mx-auto p-6 bg-gray-50 min-h-screen">
+              <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h1 className="text-4xl font-bold text-gray-800 mb-2">Washington DC Weekend</h1>
+                <p className="text-xl text-gray-600 mb-4">Divya, Bharat & Richa | Oct 10-13, 2024 | Tampa to BWI</p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="bg-blue-50 p-4 rounded-lg"><p className="font-semibold text-blue-800">Group</p><p className="text-blue-700">Sunday Split Departure</p></div>
+                  <div className="bg-green-50 p-4 rounded-lg"><p className="font-semibold text-green-800">Base</p><p className="text-green-700">Kellogg → Airbnb (B&R)</p></div>
+                  <div className="bg-purple-50 p-4 rounded-lg"><p className="font-semibold text-purple-800">Budget</p><p className="text-purple-700">$479 total</p></div>
+                  <div className="bg-orange-50 p-4 rounded-lg"><p className="font-semibold text-orange-800">Critical</p><p className="text-orange-700">MARC & 7:05 AM train</p></div>
+                </div>
+              </div>
+              {itinerary.map((day, dayIndex) => (
+                <div key={dayIndex} className="bg-white rounded-xl shadow-lg mb-8 overflow-hidden">
+                  <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6">
+                    <h2 className="text-2xl font-bold text-white mb-1">{day.day}</h2>
+                    <p className="text-blue-100 text-lg">{day.subtitle}</p>
+                    <div className="mt-3">
+                      <div className="bg-white bg-opacity-20 rounded-full h-2">
+                        <div className="bg-white rounded-full h-2 transition-all duration-500" style={{ width: getDayProgress(day.items) + '%' }}></div>
+                      </div>
+                      <p className="text-blue-100 text-sm mt-1">{getDayProgress(day.items)}% Complete</p>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    {day.items.map((item) => (
+                      <div key={item.id} className={`border-l-4 ${item.critical ? 'border-red-400 bg-red-50' : item.split ? 'border-yellow-400 bg-yellow-50' : 'border-blue-400 bg-blue-50'} rounded-r-lg p-6 mb-6 transition-all duration-300 ${completedItems.has(item.id) ? 'opacity-60' : ''}`}>
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex-1">
+                            <div className="flex items-center mb-2">
+                              <button onClick={() => toggleComplete(item.id)} className="mr-4">
+                                {completedItems.has(item.id) ? 
+                                  <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> : 
+                                  <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" strokeWidth={2} /></svg>
+                                }
+                              </button>
+                              <span className="font-bold text-lg text-gray-800">{item.time}</span>
+                              {item.critical && <span className="ml-2 text-red-600 text-sm">⚠️ CRITICAL</span>}
+                              {item.person === "Divya" && <span className="ml-2 text-blue-600 text-sm">✈️ DIVYA</span>}
+                              {item.person === "B&R" && <span className="ml-2 text-green-600 text-sm">🚂 BHARAT & RICHA</span>}
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-800 mb-2">{item.title}</h3>
+                            <p className="text-gray-700 mb-3">{item.details}</p>
+                            {item.transport && <p className="text-gray-600 text-sm mb-2"><strong>Transport:</strong> {item.transport}</p>}
+                          </div>
+                          {item.cost && (
+                            <div className="ml-4">
+                              <div className="bg-white rounded-lg p-3 shadow-sm border">
+                                <span className="font-semibold text-green-800">{item.cost}</span>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+              <div className="bg-white rounded-xl shadow-lg p-8">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">Budget: $479 Total</h2>
+                <div className="grid grid-cols-3 gap-6">
+                  <div className="bg-blue-50 p-6 rounded-lg text-center"><h3 className="font-semibold text-blue-800">Transport</h3><p className="text-2xl font-bold text-blue-700">$189</p></div>
+                  <div className="bg-green-50 p-6 rounded-lg text-center"><h3 className="font-semibold text-green-800">Food</h3><p className="text-2xl font-bold text-green-700">$290</p></div>
+                  <div className="bg-purple-50 p-6 rounded-lg text-center"><h3 className="font-semibold text-purple-800">Museums</h3><p className="text-2xl font-bold text-purple-700">FREE</p></div>
+                </div>
+              </div>
+              <div className="bg-red-50 border-l-4 border-red-400 rounded-lg p-6 mt-8">
+                <h3 className="text-lg font-bold text-red-800 mb-4">🚨 CRITICAL ALERTS</h3>
+                <ul className="text-red-700 space-y-2 text-sm">
+                  <li>• <strong>Divya:</strong> MARC trains to BWI every 2 hours Sunday - verify schedule</li>
+                  <li>• <strong>Archives:</strong> Pre-reserve timed entry online</li>
+                  <li>• <strong>Bharat & Richa:</strong> 7:05 AM Amtrak Monday - arrive Union Station 6:30 AM</li>
+                  <li>• <strong>All:</strong> Meet Union Station 3:15 PM Sunday for split coordination</li>
+                </ul>
+              </div>
+            </div>
+          );
+        };
+        ReactDOM.render(<DCWeekendTracker />, document.getElementById('root'));
+    </script>
+</body>
+</html>
